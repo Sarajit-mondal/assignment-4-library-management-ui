@@ -53,7 +53,7 @@ export default function Navbar() {
             </li>
             <li>
               <NavLink
-                to="/borrowbook"
+                to="/borrow-summary"
                 className={({ isActive }) =>
                   `${linkBase} ${isActive ? linkActive : ""}`
                 }

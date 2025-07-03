@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import MainLayout from "./MainLayout.tsx";
 import AddBook from "./pageComponet/AddBook.tsx";
 import BorrowSummary from "./pageComponet/BorrowSummary.tsx";
-import AllBooks from "./pageComponet/AllBooks.tsx";
+import AllBooks from "./pageComponet/allBooks/AllBooks.tsx";
 const root = document.getElementById("root");
 if (!root) {
   throw new Error('Root element not found');
@@ -19,7 +19,7 @@ ReactDOM.createRoot(root).render(
          <Route element={<MainLayout />}>
           <Route index  element={<AllBooks/>} /> 
           <Route path="/addbook"  element={<AddBook />} /> 
-          <Route path="/borrowbook"  element={<BorrowSummary/>} /> 
+          <Route path="/borrow-summary"  element={<BorrowSummary/>} /> 
           
          </Route>
       </Routes>
