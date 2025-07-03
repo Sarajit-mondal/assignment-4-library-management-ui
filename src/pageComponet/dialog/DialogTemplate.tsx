@@ -1,28 +1,31 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
-  DialogFooter,
-  DialogClose,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+
 import BorrowBookDialog from "./BrrowBookDialog";
 import AddBook from "../AddBook";
 import type { Book } from "@/interface/Interface";
+import { useState } from "react";
 
-export default function BorrowDialog({
+interface DialogBookProps {
+ open: boolean;
+  onOpenChange: (open: boolean) => void;
+  book: Book
+  dialogName: string;
+}
+export default function DialogTemplate({
   open,
   onOpenChange,
   book,
   dialogName,
-}: {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  book: Book
-  dialogName: string;
-}) {
+}: DialogBookProps) {
+const onClose = () => {
+  onOpenChange(false);
+}
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       {/* 1️⃣  max‑height and flex column */}
@@ -30,23 +33,25 @@ export default function BorrowDialog({
         <DialogHeader>
           <DialogTitle>Borrow Book</DialogTitle>
         </DialogHeader>
-
-        {/* 2️⃣  scrollable body area */}
+       <DialogDescription>
+ {/* 2️⃣  scrollable body area */}
         <div className="flex-1 overflow-y-auto pr-1">
           {dialogName === "BorrowBook" ? (
-            <BorrowBookDialog />
+            <BorrowBookDialog book={book} onClose={onClose} />
           ) : (
             <AddBook />
           )}
         </div>
+       </DialogDescription>
+       
 
-        {/* 3️⃣  footer stays pinned */}
+          {/* footer stays pinned
         <DialogFooter className="pt-4">
           <DialogClose asChild>
             <Button variant="secondary">Cancel</Button>
           </DialogClose>
           <Button>Confirm</Button>
-        </DialogFooter>
+        </DialogFooter> */}
       </DialogContent>
     </Dialog>
   );

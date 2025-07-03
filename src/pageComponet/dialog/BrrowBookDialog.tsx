@@ -1,32 +1,37 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button"; // adjust the path if needed
+import type { Book } from "@/interface/Interface";
 
 interface BorrowBookDialogProps {
-  book?: { invoice?: number };
-  onUpdate?: (quantity: number) => void;
+  book: Book;
+  onClose: () => void;
 }
 
-export default function BorrowBookDialog({ book, onUpdate }: BorrowBookDialogProps) {
+export default function BorrowBookDialog({ book, onClose }: BorrowBookDialogProps) {
   // show 0 if no book prop yet
-  const [quantity, setQuantity] = useState(book?.invoice ?? 0);
+  const [quantity, setQuantity] = useState(0);
+ 
 
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    onUpdate?.(quantity);      // callback to parent
+    console.log(quantity);
+    onClose();
   };
+  console.log(book)
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-sm scroll-auto">
-      <label htmlFor="invoice" className="block font-medium">
+         <h1 className="text-lg font-bold">{book.title}</h1>
+        <h1 className="font-bold -mt-4"> Available Book : {book.copies}</h1>
+
+         <label htmlFor="invoice" className="block font-medium">
         How many&nbsp;books do you want to borrow?
       </label>
-
       <input
         id="invoice"
         type="number"
         min={1}
         className="w-full border rounded p-2"
-        value={quantity}
         onChange={(e) => setQuantity(Number(e.target.value))}
       />
 
