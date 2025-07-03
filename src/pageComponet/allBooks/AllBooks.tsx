@@ -16,8 +16,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { MoreVertical } from "lucide-react";
-import BrrowBookDialog from "./BrrowBookDialog";
 import { PaginationBook } from "./PaginationBook";
+import DialogTemplate from "../dialog/DialogTemplate";
 
 
 type Book = {
@@ -35,22 +35,25 @@ const invoices: Book[] = [
 
 export default function AllBooks() {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [dilogName, setDialogName] = useState<string | undefined>();
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
-  const openDialog = (book: Book) => {
+  const openDialog = (book: Book,dialog:string) => {
     setSelectedBook(book);
+    setDialogName(dialog)
     setDialogOpen(true);
   };
 
   return (
     <>
       {/* Dialog Component */}
-      <BrrowBookDialog
+      <DialogTemplate
         open={dialogOpen}
         onOpenChange={setDialogOpen}
         book={selectedBook ?? undefined}
+        dialogName={dilogName ?? ""}
       />
-
+      
       <Table>
         <TableHeader>
           <TableRow>
@@ -80,10 +83,10 @@ export default function AllBooks() {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem onSelect={() => alert("Edit Book")}>
+                    <DropdownMenuItem onSelect={() => openDialog(book,"EditBook")}>
                       Edit Book
                     </DropdownMenuItem>
-                    <DropdownMenuItem onSelect={() => openDialog(book)}>
+                    <DropdownMenuItem onSelect={() => openDialog(book,"BorrowBook")}>
                       Borrow / View
                     </DropdownMenuItem>
                     <DropdownMenuItem onSelect={() => alert("Delete Book")}>

@@ -9,8 +9,11 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import type { DialogTitleProps } from "@radix-ui/react-dialog";
+import BrrowBookDialog from "./BrrowBookDialog";
+import AddBook from "../AddBook";
 
-interface BrrowBookDialogProps {
+interface DialogTemplateProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   book?: {
@@ -18,23 +21,27 @@ interface BrrowBookDialogProps {
     paymentStatus?: string;
     paymentMethod?: string;
     // Add other book properties if needed
-  };
+  },
+  dialogName: string
+
 }
 
-export default function BrrowBookDialog({ open, onOpenChange, book }: BrrowBookDialogProps) {
+export default function DialogTemplate({ open, onOpenChange, book, dialogName }: DialogTemplateProps) {
+
+  console.log(dialogName)
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Borrow Book</DialogTitle>
-          <DialogDescription>
-            You selected invoice: <strong>{book?.invoice}</strong>
-          </DialogDescription>
         </DialogHeader>
-        <div className="py-4">
-          <p>Status: {book?.paymentStatus}</p>
-          <p>Method: {book?.paymentMethod}</p>
-        </div>
+
+        <DialogDescription>
+           {
+            dialogName === "BorrowBook" ? <BrrowBookDialog/> : <AddBook />
+           }
+        </DialogDescription>
+       
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="secondary">Cancel</Button>
