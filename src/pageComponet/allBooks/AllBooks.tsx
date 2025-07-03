@@ -25,8 +25,8 @@ import type { Book } from "@/interface/Interface";
 
 
 export default function AllBooks() {
-  const {data:books} = useGetBooksQuery({})
-  console.log(books.data)
+  const {data:books,isLoading} = useGetBooksQuery({})
+  console.log(books)
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dilogName, setDialogName] = useState<string | undefined>();
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
@@ -37,15 +37,19 @@ export default function AllBooks() {
     setDialogOpen(true);
   };
 
+  if(isLoading) return <div className="flex justify-center">Lodding.......</div>
+
   return (
     <>
       {/* Dialog Component */}
-      <DialogTemplate
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
-        book={selectedBook ?? undefined}
-        dialogName={dilogName ?? ""}
-      />
+      {selectedBook && (
+        <DialogTemplate
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
+          book={selectedBook}
+          dialogName={dilogName ?? ""}
+        />
+      )}
       
       <Table>
         <TableHeader>
@@ -60,29 +64,29 @@ export default function AllBooks() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {books.data?.map((book:Book,inx:number) => (
+          {books?.data?.map((book:Book,inx:number) => (
             <TableRow key={inx}>
               <TableCell>{inx+1}.</TableCell>
               <TableCell>{book.title}</TableCell>
               <TableCell>{book.author}</TableCell>
               <TableCell>{book.isbn}</TableCell>
               <TableCell>{book.copies}</TableCell>
-              <TableCell className="text-right">{book?.available ? "Available":"Unavailable"}</TableCell>
+              <TableCell className={`text-right ${book?.available ? "text-blue-500":"text-red-500"}`}>{book?.available ? "Available":"Unavailable"}</TableCell>
               <TableCell className="text-right">
-                <DropdownMenu>
+                <DropdownMenu >
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon">
-                      <MoreVertical className="w-4 h-4" />
+                    <Button variant="ghost" size="icon" className="cursor-pointer">
+                      <MoreVertical className="w-4 h-4 " />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem onSelect={() => openDialog(book,"EditBook")}>
+                    <DropdownMenuItem className="cursor-pointer" onSelect={() => openDialog(book,"EditBook")}>
                       Edit Book
                     </DropdownMenuItem>
-                    <DropdownMenuItem onSelect={() => openDialog(book,"BorrowBook")}>
-                      Borrow / View
+                    <DropdownMenuItem className="cursor-pointer" onSelect={() => openDialog(book,"BorrowBook")}>
+                      Borrow Book
                     </DropdownMenuItem>
-                    <DropdownMenuItem onSelect={() => alert("Delete Book")}>
+                    <DropdownMenuItem className="cursor-pointer text-red-500" onSelect={() => alert("Delete Book")}>
                       Delete Book
                     </DropdownMenuItem>
                   </DropdownMenuContent>

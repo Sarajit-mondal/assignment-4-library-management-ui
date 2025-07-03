@@ -1,4 +1,3 @@
-// src/pageComponents/BorrowBookDialog.jsx
 import {
   Dialog,
   DialogContent,
@@ -9,40 +8,40 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import type { DialogTitleProps } from "@radix-ui/react-dialog";
-import BrrowBookDialog from "./BrrowBookDialog";
+import BorrowBookDialog from "./BrrowBookDialog";
 import AddBook from "../AddBook";
+import type { Book } from "@/interface/Interface";
 
-interface DialogTemplateProps {
+export default function BorrowDialog({
+  open,
+  onOpenChange,
+  book,
+  dialogName,
+}: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  book?: {
-    invoice?: string;
-    paymentStatus?: string;
-    paymentMethod?: string;
-    // Add other book properties if needed
-  },
-  dialogName: string
-
-}
-
-export default function DialogTemplate({ open, onOpenChange, book, dialogName }: DialogTemplateProps) {
-
-  console.log(dialogName)
+  book: Book
+  dialogName: string;
+}) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      {/* 1️⃣  max‑height and flex column */}
+      <DialogContent className="flex max-h-[90vh] flex-col sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>Borrow Book</DialogTitle>
         </DialogHeader>
 
-        <DialogDescription>
-           {
-            dialogName === "BorrowBook" ? <BrrowBookDialog/> : <AddBook />
-           }
-        </DialogDescription>
-       
-        <DialogFooter>
+        {/* 2️⃣  scrollable body area */}
+        <div className="flex-1 overflow-y-auto pr-1">
+          {dialogName === "BorrowBook" ? (
+            <BorrowBookDialog />
+          ) : (
+            <AddBook />
+          )}
+        </div>
+
+        {/* 3️⃣  footer stays pinned */}
+        <DialogFooter className="pt-4">
           <DialogClose asChild>
             <Button variant="secondary">Cancel</Button>
           </DialogClose>

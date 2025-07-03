@@ -16,7 +16,7 @@ export default function BorrowBookDialog({ book, onUpdate }: BorrowBookDialogPro
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-sm">
+    <form onSubmit={handleSubmit} className="space-y-4 max-w-sm scroll-auto">
       <label htmlFor="invoice" className="block font-medium">
         How many&nbsp;books do you want to borrow?
       </label>
