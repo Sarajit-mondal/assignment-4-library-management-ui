@@ -10,7 +10,18 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
-export default function BrrowBookDialog({ open, onOpenChange, book }) {
+interface BrrowBookDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  book?: {
+    invoice?: string;
+    paymentStatus?: string;
+    paymentMethod?: string;
+    // Add other book properties if needed
+  };
+}
+
+export default function BrrowBookDialog({ open, onOpenChange, book }: BrrowBookDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
