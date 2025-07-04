@@ -1,4 +1,5 @@
 /* BookSummaryTable.tsx */
+import { useGetBorrowBookQuery } from "@/api/LibraryApi";
 import React from "react";
 
 interface BookRow {
@@ -8,43 +9,11 @@ interface BookRow {
 }
 
 
-const BorrowBook: BookRow[] = [
-  {
-    title: "The Theory of Everything",
-    totalQuantity: 7,
-    dueDate: "2025-07-04",
-  },
-  {
-    title: "A Brief History of Time",
-    totalQuantity: 3,
-    dueDate: "2025-08-15",
-  },
-  {
-    title: "Sapiens: A Brief History of Humankind",
-    totalQuantity: 5,
-    dueDate: "2025-09-01",
-  },
-  {
-    title: "Harry Potter and the Sorcerer's Stone",
-    totalQuantity: 9,
-    dueDate: "2025-10-10",
-  },
-  {
-    title: "Sapiens: A Brief History of Humankind",
-    totalQuantity: 5,
-    dueDate: "2025-09-01",
-  },
-  {
-    title: "Harry Potter and the Sorcerer's Stone",
-    totalQuantity: 9,
-    dueDate: "2025-10-10",
-  },
-];
-
 
 const BorrowSummary= () => {
-  // Ensure rows is always an array
 
+//  const {data:BorrowBook}= useGetBorrowBookQuery(undefined)
+// console.log(BorrowBook)
   return (
     <section className="max-w-3xl mx-auto p-6 bg-white shadow rounded-lg">
       {/* Table title */}
@@ -61,15 +30,15 @@ const BorrowSummary= () => {
                 Title
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                Total Quantity
+                ISBN
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                Due Date
+               Total Quantity
               </th>
             </tr>
           </thead>
 
-          <tbody className="bg-white divide-y divide-gray-100">
+          {/* <tbody className="bg-white divide-y divide-gray-100">
             {BorrowBook?.map(({ title, totalQuantity, dueDate }, idx) => (
               <tr key={idx}>
                 <td className="px-4 py-2 whitespace-nowrap">{title}</td>
@@ -79,7 +48,7 @@ const BorrowSummary= () => {
                 </td>
               </tr>
             ))}
-          </tbody>
+          </tbody> */}
         </table>
       </div>
     </section>

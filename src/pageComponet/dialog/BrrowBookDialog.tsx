@@ -17,13 +17,22 @@ export default function BorrowBookDialog({ book, onClose }: BorrowBookDialogProp
     console.log(quantity);
     onClose();
   };
-  console.log(book)
+ 
+    const today = new Date().toISOString().split("T")[0];
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-sm scroll-auto">
          <h1 className="text-lg font-bold">{book.title}</h1>
         <h1 className="font-bold -mt-4"> Available Book : {book.copies}</h1>
-
+         <div>
+            <label className="block text-sm font-medium mb-1">Due Date</label>
+            <input
+              type="date"
+              defaultValue={today}
+              min={today}
+              className="w-full border rounded p-2"
+            />
+          </div>
          <label htmlFor="invoice" className="block font-medium">
         How many&nbsp;books do you want to borrow?
       </label>

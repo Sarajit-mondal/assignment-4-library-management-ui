@@ -32,7 +32,7 @@ export default function AllBooks() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dilogName, setDialogName] = useState<string | undefined>();
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
-  const [DeleteBook,{isLoading : deleteLoading}] = useDeleteBookMutation()
+  const [DeleteBook] = useDeleteBookMutation()
   const openDialog = (book: Book,dialog:string) => {
     setSelectedBook(book);
     setDialogName(dialog)

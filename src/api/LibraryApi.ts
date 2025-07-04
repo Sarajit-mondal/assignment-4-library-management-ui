@@ -8,7 +8,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const LibraryApi = createApi({
   reducerPath: 'libraryApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://assignment-3-library-management-api.vercel.app/api' }),
-  tagTypes : ["Books"], 
+  tagTypes : ["Books","Borrow"], 
 
   endpoints: (builder) => ({
   getBooks: builder.query({
@@ -33,14 +33,23 @@ export const LibraryApi = createApi({
     }),
 
 
-    deleteBook : builder.mutation<id>({
-      query:(id)=>({
+    deleteBook : builder.mutation<{ success: boolean }, string>({
+      query: (id) => ({
         url: `/books/${id}`,
-        method:"DELETE",
+        method: "DELETE",
       }),
-      invalidatesTags:["Books"]
-    })
+      invalidatesTags: ["Books"]
+    }),
+
+     //borrow book
+  getBorrowBook: builder.query({
+    query: ()=> '/borrow',
+    providesTags :["Borrow"]
+  })
+
   }),
+
+ 
 
 });
 
@@ -50,5 +59,6 @@ export const {
   useGetBooksQuery,
   useAddBookMutation,
   useUpdateBookMutation,
-  useDeleteBookMutation
+  useDeleteBookMutation,
+  useGetBorrowBookQuery
 } = LibraryApi;
