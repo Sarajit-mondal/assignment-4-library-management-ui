@@ -58,32 +58,33 @@ export default function AddBook({ initialData, onClose }: AddBookProps) {
         ...data,
       };
       try {
-        toast.promise(updateBook(book), {
-          loading: "Updateing...",
-          success: <b>Update Complited!</b>,
-          error: <b>Could not save.</b>,
-        });
+        updateBook(book) 
+        await updateBook(book).unwrap()
+        toast.success('Updated Successfully')
+
         onClose();
       } catch (error) {
-        console.log(error);
+        toast.error((error as Error)?.message || "Something went wrong")
+        console.log(error)
       }
+     
+
     } else {
       // createBookMutation.mutate(data);
       try {
-        toast.promise(addBook(data), {
-          loading: "Saveing...",
-          success: <b>Book Saved!</b>,
-          error: <b>Could not save.</b>,
-        });
+        addBook(data);
+        await addBook(data).unwrap()
+        toast.success('addBook Successfully')
+
       } catch (error) {
-        console.log(error);
+        toast.error((error.data as any)?.message || "Unknow error")
+        console.log(error)
       }
     }
 
     reset(); // clear the form for next time
   };
 
-  if (addError || updateError) return toast.error("error");
   if (isAdding && isUpdating)
     return <div>{initialData ? "Updateting........" : "Saveing........"}</div>;
   return (
