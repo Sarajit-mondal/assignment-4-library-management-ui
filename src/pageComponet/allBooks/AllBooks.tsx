@@ -24,11 +24,8 @@ import type { Book } from "@/interface/Interface";
 import toast from "react-hot-toast";
 
 
-
-
 export default function AllBooks() {
   const {data:books,isLoading} = useGetBooksQuery({})
-  console.log(books)
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dilogName, setDialogName] = useState<string | undefined>();
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
@@ -112,7 +109,13 @@ export default function AllBooks() {
                     <DropdownMenuItem className="cursor-pointer" onSelect={() => openDialog(book,"EditBook")}>
                       Edit Book
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer" onSelect={() => openDialog(book,"BorrowBook")}>
+                    <DropdownMenuItem className="cursor-pointer" onSelect={() => {
+                     if( book.copies <= 0){
+                      toast.error("No copies available to borrow!") 
+                     }else{
+                      openDialog(book,"BorrowBook")
+                     }
+                    }}>
                       Borrow Book
                     </DropdownMenuItem>
                     <DropdownMenuItem className="cursor-pointer text-red-500" onSelect={() => deleteBook(book._id)}>

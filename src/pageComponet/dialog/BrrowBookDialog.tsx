@@ -19,7 +19,6 @@ export default function BorrowBookDialog({
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log(quantity);
     const borrowBookData = {
       book: book._id,
       quantity: quantity,

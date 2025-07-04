@@ -20,7 +20,6 @@ const BorrowSummary= () => {
   isError,
   error,
 } = useGetBorrowBookQuery(undefined);
-console.log(borrowBook?.data)
 if (isLoading) return <p>Loading…</p>;
 if (isError)   return <p>Error: {((error as { message?: string })?.message ?? "Unknown error")}</p>;
   return (
