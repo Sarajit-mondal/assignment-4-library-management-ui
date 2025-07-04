@@ -20,7 +20,6 @@ const BorrowSummary= () => {
   isError,
   error,
 } = useGetBorrowBookQuery(undefined);
-if (isLoading) return <p>Loading…</p>;
 if (isError)   return <p>Error: {((error as { message?: string })?.message ?? "Unknown error")}</p>;
   return (
     <section className="max-w-3xl mx-auto p-6 bg-white shadow rounded-lg">
@@ -46,6 +45,9 @@ if (isError)   return <p>Error: {((error as { message?: string })?.message ?? "U
             </tr>
           </thead>
 
+        {
+          isLoading ? <p>Loading.....</p> 
+          :
           <tbody className="bg-white divide-y divide-gray-100">
             {borrowBook?.data?.map(( book :BookRow, idx:number) => (
               <tr key={idx}>
@@ -58,6 +60,7 @@ if (isError)   return <p>Error: {((error as { message?: string })?.message ?? "U
               </tr>
             ))}
           </tbody>
+        }
         </table>
       </div>
     </section>

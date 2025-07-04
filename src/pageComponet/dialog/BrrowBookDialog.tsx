@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"; // adjust the path if needed
 import type { Book } from "@/interface/Interface";
 import { useBorrowBookMutation } from "@/api/LibraryApi";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 interface BorrowBookDialogProps {
   book: Book;
@@ -16,7 +17,7 @@ export default function BorrowBookDialog({
   // show 0 if no book prop yet
   const [quantity, setQuantity] = useState(0);
   const [borroBook] = useBorrowBookMutation();
-
+  const navigate = useNavigate();
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const borrowBookData = {
@@ -27,6 +28,7 @@ export default function BorrowBookDialog({
       await borroBook(borrowBookData).unwrap();
       toast.success("Borrow This Book Completed")
       onClose();
+      navigate('/borrow-summary')
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
