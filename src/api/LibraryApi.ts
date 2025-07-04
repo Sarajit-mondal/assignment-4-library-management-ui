@@ -21,6 +21,7 @@ export const LibraryApi = createApi({
         method: 'POST',
         body: newBook,
       }),
+      invalidatesTags:['Books']
     }),
     updateBook: builder.mutation<Book, Book>({
       query: (book) => ({
@@ -30,7 +31,17 @@ export const LibraryApi = createApi({
       }),
       invalidatesTags: ["Books"]
     }),
+
+
+    deleteBook : builder.mutation<id>({
+      query:(id)=>({
+        url: `/books/${id}`,
+        method:"DELETE",
+      }),
+      invalidatesTags:["Books"]
+    })
   }),
+
 });
 
 
@@ -38,5 +49,6 @@ export const LibraryApi = createApi({
 export const {
   useGetBooksQuery,
   useAddBookMutation,
-  useUpdateBookMutation
+  useUpdateBookMutation,
+  useDeleteBookMutation
 } = LibraryApi;

@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { MoreVertical } from "lucide-react";
 import { PaginationBook } from "./PaginationBook";
 import DialogTemplate from "../dialog/DialogTemplate";
-import { useGetBooksQuery } from "@/api/LibraryApi";
+import { useDeleteBookMutation, useGetBooksQuery } from "@/api/LibraryApi";
 import type { Book } from "@/interface/Interface";
 
 
@@ -30,12 +30,20 @@ export default function AllBooks() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dilogName, setDialogName] = useState<string | undefined>();
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
-
+  const [DeleteBook,{isLoading : deleteLoading}] = useDeleteBookMutation()
   const openDialog = (book: Book,dialog:string) => {
     setSelectedBook(book);
     setDialogName(dialog)
     setDialogOpen(true);
   };
+
+  const deleteBook = async(id:string)=>{
+     try {
+      await DeleteBook(id)
+     } catch (error) {
+      
+     }
+  }
 
   if(isLoading) return <div className="flex justify-center">Lodding.......</div>
 
@@ -57,6 +65,7 @@ export default function AllBooks() {
             <TableHead></TableHead>
             <TableHead>Title</TableHead>
             <TableHead>Genre</TableHead>
+            <TableHead>Author</TableHead>
             <TableHead>ISBN</TableHead>
             <TableHead>Copies</TableHead>
             <TableHead className="text-right">Availability</TableHead>
@@ -68,6 +77,7 @@ export default function AllBooks() {
             <TableRow key={inx}>
               <TableCell>{inx+1}.</TableCell>
               <TableCell>{book.title}</TableCell>
+              <TableCell>{book.genre}</TableCell>
               <TableCell>{book.author}</TableCell>
               <TableCell>{book.isbn}</TableCell>
               <TableCell>{book.copies}</TableCell>
@@ -86,7 +96,7 @@ export default function AllBooks() {
                     <DropdownMenuItem className="cursor-pointer" onSelect={() => openDialog(book,"BorrowBook")}>
                       Borrow Book
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer text-red-500" onSelect={() => alert("Delete Book")}>
+                    <DropdownMenuItem className="cursor-pointer text-red-500" onSelect={() => deleteBook(book._id)}>
                       Delete Book
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -97,7 +107,7 @@ export default function AllBooks() {
         </TableBody>
    <TableFooter>
   <TableRow>
-    <TableCell colSpan={7} className="text-right py-4">
+    <TableCell colSpan={8} className="text-right py-4">
       <PaginationBook />
     </TableCell>
   </TableRow>

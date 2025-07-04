@@ -36,10 +36,8 @@ export default function AddBook({ initialData, onClose }: AddBookProps) {
       available: false,
     },
   });
-  const [addBook, { isLoading: isAdding, error: addError }] =
-    useAddBookMutation();
-  const [updateBook, { isLoading: isUpdating, error: updateError }] =
-    useUpdateBookMutation();
+const [addBook,{ isLoading: isAdding ,error:addError }] = useAddBookMutation();
+const [updateBook,{ isLoading: isUpdating,error:updateError }] = useUpdateBookMutation();
 
   // Push data into the form when `initialData` changes (edit mode)
   useEffect(() => {
@@ -51,38 +49,36 @@ export default function AddBook({ initialData, onClose }: AddBookProps) {
   }, [initialData, reset]);
 
   /** Handle add or update */
-  const saveBook = (data: BookFormData) => {
+  const saveBook = async (data: BookFormData) => {
     if (initialData) {
       const book = {
         _id: initialData._id,
         ...data,
       };
       try {
-        toast.promise(updateBook(book), {
-          loading: "Updating...",
-          success: <b> Book Updated</b>,
-          error: <b>Could not update.</b>,
-        });
+        updateBook(book) 
+        toast.success('Updated Successfully')
         onClose();
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
+     
     } else {
       // createBookMutation.mutate(data);
       try {
         addBook(data);
-        toast.success("addBook Successfully");
+        toast.success('addBook Successfully')
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     }
 
-    reset(); // clear the form for next time
+    reset();     // clear the form for next time
+  
   };
 
-  if (addError || updateError) return toast.error("error");
-  if (isAdding && isUpdating)
-    return <div>{initialData ? "Updateting........" : "Saveing........"}</div>;
+  if(addError || updateError) return toast.error("error")
+  if(isAdding && isUpdating) return <div>{initialData ? "Updateting........" : "Saveing........"}</div>
   return (
     <form
       onSubmit={handleSubmit(saveBook)}
@@ -102,12 +98,26 @@ export default function AddBook({ initialData, onClose }: AddBookProps) {
       />
       {errors.author && <p className="text-sm text-red-500">Required</p>}
 
-      <input
+      {/* Genre */}
+      <select
         {...register("genre", { required: true })}
-        className="w-full border rounded p-2"
-        placeholder="Genre"
-      />
-      {errors.genre && <p className="text-sm text-red-500">Required</p>}
+        className="w-full border rounded p-2 bg-white"
+        defaultValue=""          /* keeps placeholder effect */
+      >
+        <option value="" disabled hidden>
+          Select genre
+        </option>
+        <option value="FICTION">Fiction</option>
+        <option value="NON_FICTION">Non‑fiction</option>
+        <option value="SCIENCE">Science</option>
+        <option value="HISTORY">History</option>
+        <option value="BIOGRAPHY">Biography</option>
+        <option value="FANTASY">Fantasy</option>
+      </select>
+
+      {errors.genre && (
+        <p className="text-sm text-red-500">Genre is required</p>
+      )}
 
       <input
         {...register("isbn", { required: true })}
@@ -147,13 +157,7 @@ export default function AddBook({ initialData, onClose }: AddBookProps) {
         type="submit"
         className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
       >
-        {initialData
-          ? isUpdating
-            ? "Updateing..."
-            : "Update"
-          : isAdding
-          ? "Saveing..."
-          : "Save"}
+        {initialData ? isUpdating ? "Updateing..." :"Update"   : isAdding ? "Saveing...":"Save"}
       </button>
     </form>
   );
