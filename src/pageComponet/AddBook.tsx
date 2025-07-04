@@ -61,8 +61,9 @@ export default function AddBook({ initialData, onClose }: AddBookProps) {
         updateBook(book) 
         await updateBook(book).unwrap()
         toast.success('Updated Successfully')
-
+        
         onClose();
+         reset(); 
       } catch (error) {
         toast.error((error as Error)?.message || "Something went wrong")
         console.log(error)
@@ -75,15 +76,16 @@ export default function AddBook({ initialData, onClose }: AddBookProps) {
         addBook(data);
         await addBook(data).unwrap()
         toast.success('addBook Successfully')
-
+        reset(); 
       } catch (error) {
         toast.error((error.data as any)?.message || "Unknow error")
         console.log(error)
       }
     }
 
-    reset(); // clear the form for next time
+   
   };
+
 
   if (isAdding && isUpdating)
     return <div>{initialData ? "Updateting........" : "Saveing........"}</div>;
