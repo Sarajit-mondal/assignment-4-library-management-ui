@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Swal from 'sweetalert2';
 import {
   Table,
   TableBody,
@@ -20,6 +21,7 @@ import { PaginationBook } from "./PaginationBook";
 import DialogTemplate from "../dialog/DialogTemplate";
 import { useDeleteBookMutation, useGetBooksQuery } from "@/api/LibraryApi";
 import type { Book } from "@/interface/Interface";
+import toast from "react-hot-toast";
 
 
 
@@ -39,9 +41,22 @@ export default function AllBooks() {
 
   const deleteBook = async(id:string)=>{
      try {
+      Swal.fire({
+    title: 'Are you sure?',
+    text: 'This Book want to delete',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Yes, delete it!',
+  }).then(async(result) => {
+    if (result.isConfirmed) {
       await DeleteBook(id)
+      toast.success("Deleted successfull!")
+    }
+  });
      } catch (error) {
-      
+      console.log(error.message)
      }
   }
 
