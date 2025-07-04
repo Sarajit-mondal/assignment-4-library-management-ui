@@ -36,8 +36,10 @@ export default function AddBook({ initialData, onClose }: AddBookProps) {
       available: false,
     },
   });
-const [addBook,{ isLoading: isAdding ,error:addError }] = useAddBookMutation();
-const [updateBook,{ isLoading: isUpdating,error:updateError }] = useUpdateBookMutation();
+  const [addBook, { isLoading: isAdding, error: addError }] =
+    useAddBookMutation();
+  const [updateBook, { isLoading: isUpdating, error: updateError }] =
+    useUpdateBookMutation();
 
   // Push data into the form when `initialData` changes (edit mode)
   useEffect(() => {
@@ -56,29 +58,34 @@ const [updateBook,{ isLoading: isUpdating,error:updateError }] = useUpdateBookMu
         ...data,
       };
       try {
-        updateBook(book) 
-        toast.success('Updated Successfully')
+        toast.promise(updateBook(book), {
+          loading: "Updateing...",
+          success: <b>Update Complited!</b>,
+          error: <b>Could not save.</b>,
+        });
         onClose();
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-     
     } else {
       // createBookMutation.mutate(data);
       try {
-        addBook(data);
-        toast.success('addBook Successfully')
+        toast.promise(addBook(data), {
+          loading: "Saveing...",
+          success: <b>Book Saved!</b>,
+          error: <b>Could not save.</b>,
+        });
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
 
-    reset();     // clear the form for next time
-  
+    reset(); // clear the form for next time
   };
 
-  if(addError || updateError) return toast.error("error")
-  if(isAdding && isUpdating) return <div>{initialData ? "Updateting........" : "Saveing........"}</div>
+  if (addError || updateError) return toast.error("error");
+  if (isAdding && isUpdating)
+    return <div>{initialData ? "Updateting........" : "Saveing........"}</div>;
   return (
     <form
       onSubmit={handleSubmit(saveBook)}
@@ -102,7 +109,7 @@ const [updateBook,{ isLoading: isUpdating,error:updateError }] = useUpdateBookMu
       <select
         {...register("genre", { required: true })}
         className="w-full border rounded p-2 bg-white"
-        defaultValue=""          /* keeps placeholder effect */
+        defaultValue="" /* keeps placeholder effect */
       >
         <option value="" disabled hidden>
           Select genre
@@ -157,7 +164,13 @@ const [updateBook,{ isLoading: isUpdating,error:updateError }] = useUpdateBookMu
         type="submit"
         className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
       >
-        {initialData ? isUpdating ? "Updateing..." :"Update"   : isAdding ? "Saveing...":"Save"}
+        {initialData
+          ? isUpdating
+            ? "Updateing..."
+            : "Update"
+          : isAdding
+          ? "Saveing..."
+          : "Save"}
       </button>
     </form>
   );
