@@ -9,7 +9,6 @@ import {
 import BorrowBookDialog from "./BrrowBookDialog";
 import AddBook from "../AddBook";
 import type { Book } from "@/interface/Interface";
-import { useState } from "react";
 
 interface DialogBookProps {
  open: boolean;
@@ -33,13 +32,13 @@ const onClose = () => {
         <DialogHeader>
           <DialogTitle>Borrow Book</DialogTitle>
         </DialogHeader>
-       <DialogDescription>
+       <DialogDescription className="flex-1 overflow-y-auto pr-1">
  {/* 2️⃣  scrollable body area */}
-        <div className="flex-1 overflow-y-auto pr-1">
+        <div>
           {dialogName === "BorrowBook" ? (
             <BorrowBookDialog book={book} onClose={onClose} />
           ) : (
-            <AddBook />
+            <AddBook initialData={book} onClose={onClose}/>
           )}
         </div>
        </DialogDescription>
