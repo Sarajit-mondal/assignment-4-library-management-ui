@@ -15,8 +15,8 @@ type BookFormData = {
 };
 
 interface AddBookProps {
-  initialData?: Book;       // when editing, pass the existing book
-  onClose: () => void;      // close dialog / drawer
+  initialData?: Book; // when editing, pass the existing book
+  onClose: () => void; // close dialog / drawer
 }
 
 export default function AddBook({ initialData, onClose }: AddBookProps) {
@@ -36,8 +36,10 @@ export default function AddBook({ initialData, onClose }: AddBookProps) {
       available: false,
     },
   });
-const [addBook,{ isLoading: isAdding ,error:addError }] = useAddBookMutation();
-const [updateBook,{ isLoading: isUpdating,error:updateError }] = useUpdateBookMutation();
+  const [addBook, { isLoading: isAdding, error: addError }] =
+    useAddBookMutation();
+  const [updateBook, { isLoading: isUpdating, error: updateError }] =
+    useUpdateBookMutation();
 
   // Push data into the form when `initialData` changes (edit mode)
   useEffect(() => {
@@ -51,34 +53,36 @@ const [updateBook,{ isLoading: isUpdating,error:updateError }] = useUpdateBookMu
   /** Handle add or update */
   const saveBook = (data: BookFormData) => {
     if (initialData) {
-      const book ={
-        _id:initialData._id,
+      const book = {
+        _id: initialData._id,
         ...data,
-      }
+      };
       try {
-        updateBook(book) 
-        toast.success('Updated Successfully')
+        toast.promise(updateBook(book), {
+          loading: "Updating...",
+          success: <b> Book Updated</b>,
+          error: <b>Could not update.</b>,
+        });
         onClose();
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-     
     } else {
       // createBookMutation.mutate(data);
       try {
         addBook(data);
-        toast.success('addBook Successfully')
+        toast.success("addBook Successfully");
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
 
-    reset();     // clear the form for next time
-  
+    reset(); // clear the form for next time
   };
 
-  if(addError || updateError) return toast.error("error")
-  if(isAdding && isUpdating) return <div>{initialData ? "Updateting........" : "Saveing........"}</div>
+  if (addError || updateError) return toast.error("error");
+  if (isAdding && isUpdating)
+    return <div>{initialData ? "Updateting........" : "Saveing........"}</div>;
   return (
     <form
       onSubmit={handleSubmit(saveBook)}
@@ -143,7 +147,13 @@ const [updateBook,{ isLoading: isUpdating,error:updateError }] = useUpdateBookMu
         type="submit"
         className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
       >
-        {initialData ? isUpdating ? "Updateing..." :"Update"   : isAdding ? "Saveing...":"Save"}
+        {initialData
+          ? isUpdating
+            ? "Updateing..."
+            : "Update"
+          : isAdding
+          ? "Saveing..."
+          : "Save"}
       </button>
     </form>
   );
