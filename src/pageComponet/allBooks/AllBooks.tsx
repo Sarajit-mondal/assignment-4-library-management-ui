@@ -28,7 +28,7 @@ export default function AllBooks() {
   const [pageLimit, setPageLimit] = useState(10);
   const [pageSkip, setPageSkip] = useState(1);
   const [filterby, setFilterBY] = useState("");
-
+  console.log(pageLimit,pageSkip)
   /// get book data rtk queary
   const { data: books, isLoading } = useGetBooksQuery({
     sortBy: "createdAt", // maps to ?sortBy=createdAt

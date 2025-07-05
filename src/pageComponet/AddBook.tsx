@@ -72,7 +72,12 @@ export default function AddBook({ initialData, onClose }: AddBookProps) {
     } else {
       // createBookMutation.mutate(data);
       try {
-        await addBook(data).unwrap()
+      
+       const newData ={
+        ...data,
+        available:data.copies > 0
+       }
+        await addBook(newData).unwrap()
         toast.success('addBook Successfully')
         reset(); 
         onClose();
