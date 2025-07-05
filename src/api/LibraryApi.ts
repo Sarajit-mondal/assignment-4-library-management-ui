@@ -32,6 +32,7 @@ export const LibraryApi = createApi({
         // → GET /books?sortBy=createdAt&limit=1&filter=SCIENCE
         return `/api/books?${params.toString()}`;
       },
+      providesTags:["Books"]
     }),
   
     addBook: builder.mutation<Book , Partial<Book>>({

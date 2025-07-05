@@ -77,8 +77,8 @@ export default function Navbar() {
         {open && (
           <ul className="sm:hidden pb-4 border-t dark:border-gray-700">
             {[
-              { to: "/books", label: "All Books" },
-              { to: "/add-book", label: "Add Book" },
+              { to: "/", label: "All Books" },
+              { to: "/addbook", label: "Add Book" },
               { to: "/borrow-summary", label: "Borrow Summary" },
             ].map(({ to, label }) => (
               <li key={to}>

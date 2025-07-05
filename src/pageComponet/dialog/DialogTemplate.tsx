@@ -3,7 +3,6 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle,
 } from "@/components/ui/dialog";
 
 import BorrowBookDialog from "./BrrowBookDialog";
@@ -30,7 +29,7 @@ const onClose = () => {
       {/* 1️⃣  max‑height and flex column */}
       <DialogContent className="flex max-h-[90vh] flex-col sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Borrow Book</DialogTitle>
+          
         </DialogHeader>
        <DialogDescription className="flex-1 overflow-y-auto pr-1">
  {/* 2️⃣  scrollable body area */}

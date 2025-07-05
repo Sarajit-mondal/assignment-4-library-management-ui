@@ -52,13 +52,12 @@ export default function AddBook({ initialData, onClose }: AddBookProps) {
 
   /** Handle add or update */
   const saveBook = async (data: BookFormData) => {
-    if (initialData) {
+    if (initialData?._id) {
       const book = {
         _id: initialData._id,
         ...data,
       };
       try {
-        updateBook(book) 
         await updateBook(book).unwrap()
         toast.success('Updated Successfully')
         
@@ -73,10 +72,10 @@ export default function AddBook({ initialData, onClose }: AddBookProps) {
     } else {
       // createBookMutation.mutate(data);
       try {
-        addBook(data);
         await addBook(data).unwrap()
         toast.success('addBook Successfully')
         reset(); 
+        onClose();
       } catch (error) {
         if (
           error &&
@@ -179,7 +178,7 @@ export default function AddBook({ initialData, onClose }: AddBookProps) {
         type="submit"
         className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
       >
-        {initialData
+        {initialData?._id
           ? isUpdating
             ? "Updateing..."
             : "Update"
