@@ -1,3 +1,4 @@
+import { useGetBooksQuery } from "@/api/LibraryApi"
 import {
   Pagination,
   PaginationContent,
@@ -9,6 +10,9 @@ import {
 } from "@/components/ui/pagination"
 
 export function PaginationBook() {
+  const {data:books} = useGetBooksQuery({})
+
+  console.log(books)
   return (
     <Pagination>
       <PaginationContent>

@@ -36,7 +36,7 @@ export default function AddBook({ initialData, onClose }: AddBookProps) {
       available: false,
     },
   });
-  const [addBook, { isLoading: isAdding}] =
+  const [addBook, { isLoading: isAdding }] =
     useAddBookMutation();
   const [updateBook, { isLoading: isUpdating }] =
     useUpdateBookMutation();
@@ -78,8 +78,16 @@ export default function AddBook({ initialData, onClose }: AddBookProps) {
         toast.success('addBook Successfully')
         reset(); 
       } catch (error) {
-        if (error && typeof error === "object" && "data" in error && error.data && typeof (error.data as any).message === "string") {
-          toast.error((error.data as any).message);
+        if (
+          error &&
+          typeof error === "object" &&
+          "data" in error &&
+          error.data &&
+          typeof (error as { data?: { message?: string } }).data?.message === "string"
+        ) {
+          toast.error((error as { data: { message: string } }).data.message);
+        } else if (error instanceof Error) {
+          toast.error(error.message);
         } else {
           toast.error("Unknown error");
         }
