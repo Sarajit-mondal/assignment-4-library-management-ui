@@ -7,17 +7,17 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 // deploy api = https://assignment-3-library-management-api.vercel.app/
 export const LibraryApi = createApi({
   reducerPath: 'libraryApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://assignment-3-library-management-api.vercel.app/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl:'http://localhost:8000' }),
   tagTypes : ["Books","Borrow"], 
 
   endpoints: (builder) => ({
   getBooks: builder.query({
-        query: ()=> '/books',
+        query: ()=> 'api/books',
         providesTags : ['Books']
     }),
     addBook: builder.mutation<Book , Partial<Book>>({
       query: (newBook) => ({
-        url: '/books',
+        url: 'api/books',
         method: 'POST',
         body: newBook,
       }),
@@ -25,7 +25,7 @@ export const LibraryApi = createApi({
     }),
     updateBook: builder.mutation<Book, Book>({
       query: (book) => ({
-        url: `/books/${book._id}`,
+        url: `api/books/${book._id}`,
         method: 'PUT',
         body: book,
       }),
@@ -35,7 +35,7 @@ export const LibraryApi = createApi({
 
     deleteBook : builder.mutation<{ success: boolean }, string>({
       query: (id) => ({
-        url: `/books/${id}`,
+        url: `api/books/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Books"]
@@ -43,7 +43,7 @@ export const LibraryApi = createApi({
 
      //borrow book
   getBorrowBook: builder.query({
-    query: ()=> '/borrow',
+    query: ()=> 'api/borrow',
     providesTags :["Borrow"]
   })
 

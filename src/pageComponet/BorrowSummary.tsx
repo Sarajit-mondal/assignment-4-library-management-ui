@@ -1,19 +1,12 @@
 /* BookSummaryTable.tsx */
 import { useGetBorrowBookQuery } from "@/api/LibraryApi";
-import React from "react";
-
-interface BookRow {
-  title: string;
-  totalQuantity: number;
-  dueDate: string;     // ISO string, e.g. "2025-07-04"
-}
 
 
 
 const BorrowSummary= () => {
 
-//  const {data:BorrowBook}= useGetBorrowBookQuery(undefined)
-// console.log(BorrowBook)
+ const {data:BorrowBook}= useGetBorrowBookQuery({})
+console.log(BorrowBook)
   return (
     <section className="max-w-3xl mx-auto p-6 bg-white shadow rounded-lg">
       {/* Table title */}
