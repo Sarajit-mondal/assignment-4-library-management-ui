@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { MoreVertical } from "lucide-react";
-import { PaginationBook } from "./PaginationBook";
+import  PaginationBook  from "./PaginationBook";
 import DialogTemplate from "../dialog/DialogTemplate";
 import { useDeleteBookMutation, useGetBooksQuery } from "@/api/LibraryApi";
 import type { Book } from "@/interface/Interface";
@@ -25,7 +25,14 @@ import toast from "react-hot-toast";
 
 
 export default function AllBooks() {
-  const {data:books,isLoading} = useGetBooksQuery({})
+  const [pageLimit,setPageLimit] = useState(10)
+  const [pageSkip,setPageSkip] = useState(1)
+  const {data:books,isLoading} = useGetBooksQuery({
+  sortBy: "createdAt",   // maps to ?sortBy=createdAt
+  skip:pageSkip,
+  limit: pageLimit,              // maps to ?limit=1
+  // filter: "SCIENCE",     // maps to ?filter=SCIENCE
+  })
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dilogName, setDialogName] = useState<string | undefined>();
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
@@ -130,7 +137,7 @@ export default function AllBooks() {
    <TableFooter>
   <TableRow>
     <TableCell colSpan={8} className="text-right py-4">
-      <PaginationBook />
+      <PaginationBook pageLimit={pageLimit} setPageLimit={setPageLimit} setPageSkip={setPageSkip}/>
     </TableCell>
   </TableRow>
 </TableFooter>

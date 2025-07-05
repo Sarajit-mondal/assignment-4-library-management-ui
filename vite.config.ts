@@ -5,12 +5,8 @@ import { defineConfig } from "vite"
 
 // https://vite.dev/config/
 export default defineConfig({
-<<<<<<< HEAD
-  build: {
-=======
     build: {
->>>>>>> 9edebd99a49af82dfebba1a2c88fe66ce30aadbe
-    chunkSizeWarningLimit: 1000,   // in kB
+    chunkSizeWarningLimit: 1000,  
   },
   plugins: [react(), tailwindcss()],
   

@@ -12,10 +12,28 @@ export const LibraryApi = createApi({
   tagTypes : ["Books","Borrow"], 
 
   endpoints: (builder) => ({
-  getBooks: builder.query({
-        query: ()=> '/api/books',
-        providesTags : ['Books']
+  // getBooks: builder.query({
+  //       query: ()=> '/api/books',
+  //       providesTags : ['Books']
+  //   }),
+   getBooks: builder.query({
+      query: (args = {}) => {
+        // provide defaults
+        const { sortBy = 'createdAt', limit = 10,skip=1, filter } = args;
+
+        const params = new URLSearchParams({
+          sortBy,
+          skip,
+          limit: limit.toString(),
+        });
+
+        if (filter) params.set('filter', filter);
+
+        // → GET /books?sortBy=createdAt&limit=1&filter=SCIENCE
+        return `/api/books?${params.toString()}`;
+      },
     }),
+  
     addBook: builder.mutation<Book , Partial<Book>>({
       query: (newBook) => ({
         url: '/api/books',
