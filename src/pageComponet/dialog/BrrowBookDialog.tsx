@@ -25,10 +25,14 @@ export default function BorrowBookDialog({
       quantity: quantity,
     };
     try {
-      await borroBook(borrowBookData).unwrap();
+      if( quantity <= book.copies ){
+        await borroBook(borrowBookData).unwrap();
       toast.success("Borrow This Book Completed")
       onClose();
       navigate('/borrow-summary')
+      }else{
+         toast.error("book quantity not anf for borrow");
+      }
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -43,6 +47,8 @@ export default function BorrowBookDialog({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-sm scroll-auto">
+
+      <h1 className="text-xl font-bold">Borrow Book</h1>
       <h1 className="text-lg font-bold">{book.title}</h1>
       <h1 className="font-bold -mt-4"> Available Book : {book.copies}</h1>
       <div>
@@ -65,8 +71,8 @@ export default function BorrowBookDialog({
         onChange={(e) => setQuantity(Number(e.target.value))}
       />
 
-      <Button type="submit" disabled={quantity < 1}>
-        Update
+      <Button className="cursor-pointer" type="submit" disabled={quantity < 1}>
+       Borrrow
       </Button>
     </form>
   );
